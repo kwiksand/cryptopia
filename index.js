@@ -166,6 +166,12 @@ function executeRequest(options, requestDesc, callback)
 // Public Functions
 //
 
+
+Cryptopia.prototype.getCurrencies = function getCurrencies(callback)
+{
+    this.publicRequest("GetCurrencies/", {}, callback)
+}
+
 Cryptopia.prototype.getTicker = function getTicker(callback, pair)
 {
     this.publicRequest("GetMarket/" + pair, {currencyPair: pair}, callback)
