@@ -50,7 +50,7 @@ Cryptopia.prototype.privateRequest = function(method, params, callback)
     var uri = this.privateApiPath + "/" + method
     var url = this.server + "/" + uri
 
-    var nonce = Math.floor(new Date().getTime() / 1000)
+    var nonce = Math.floor(new Date().getTime() / 1000) - Math.floor(Math.random() * 100);
     var md5 = crypto.createHash("md5").update( JSON.stringify( params ) ).digest()
     var requestContentBase64String = md5.toString("base64")
     var signature = this.api_key + "POST" + encodeURIComponent( url ).toLowerCase() + nonce + requestContentBase64String
@@ -282,12 +282,11 @@ Cryptopia.prototype.getAccountRecords = function getAccountRecords(callback, sym
     }, callback)
 }
 
-Cryptopia.prototype.getTradeHistory = function getTradeHistory(callback, symbol, since)
-{
-    this.privateRequest("trade_history", {
-        symbol: symbol,
-        since: since
-    }, callback)
+Cryptopia.prototype.getTradeHistory = function getTradeHistory(callback, market)
+{       
+    this.privateRequest("GetTradeHistory", {
+        Market: market
+    }, callback);
 }
 
 Cryptopia.prototype.getOrderHistory = function getOrderHistory(callback, symbol, status, current_page, page_length)
